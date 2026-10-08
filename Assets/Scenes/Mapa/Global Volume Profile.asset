@@ -15,7 +15,7 @@ MonoBehaviour:
   active: 1
   temperature:
     m_OverrideState: 1
-    m_Value: 5.1
+    m_Value: 17
   tint:
     m_OverrideState: 0
     m_Value: 0
@@ -89,7 +89,7 @@ MonoBehaviour:
     m_Value: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 0.18
+    m_Value: 0.76
   intensity:
     m_OverrideState: 1
     m_Value: 0.15
@@ -120,7 +120,7 @@ MonoBehaviour:
     dimension: 1
   dirtIntensity:
     m_OverrideState: 0
-    m_Value: 0
+    m_Value: 9.67
 --- !u!114 &3577356613375457062
 MonoBehaviour:
   m_ObjectHideFlags: 3
