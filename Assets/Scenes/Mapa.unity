@@ -571,8 +571,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   typeOfEnemy: 0
-  projectilePrefab: {fileID: 0}
-  firePoint: {fileID: 0}
+  projectilePrefab: {fileID: 2631002590310893006, guid: a9e150b5e2c415c4cbfbb230255569c2, type: 3}
+  firePoint: {fileID: 1767625888}
   fireRate: 1.5
   waypoints: []
   waypointThreshold: 0.5
@@ -592,7 +592,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   enemyHealth: 2
-  gunHitEffect: {fileID: 0}
+  gunHitEffect: {fileID: 7184640556972112529, guid: 05eee6176910c5e418b65e32d24544fb, type: 3}
   attackDamage: 10
 --- !u!54 &127308858
 Rigidbody:
@@ -6114,6 +6114,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1680501587, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.714
+      objectReference: {fileID: 0}
+    - target: {fileID: 1767192434, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0146
+      objectReference: {fileID: 0}
     - target: {fileID: 1717954561962503725, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_Name
       value: XR Origin (XR Rig)
@@ -6157,6 +6165,14 @@ PrefabInstance:
     - target: {fileID: 1717954561962503726, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7272110783782217534, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      propertyPath: m_RendererIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7272110783782217534, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      propertyPath: m_RenderPostProcessing
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9357,6 +9373,10 @@ PrefabInstance:
     - target: {fileID: 8135023674665499069, guid: 58d0a4ac86f2348deb02f3880c71378e, type: 3}
       propertyPath: m_Name
       value: XR Interaction Simulator
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135023674665499069, guid: 58d0a4ac86f2348deb02f3880c71378e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8518324294302271954, guid: 58d0a4ac86f2348deb02f3880c71378e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -19328,6 +19348,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b10c96cf10301744185cad6b4d5ba61d, type: 3}
   m_PrefabInstance: {fileID: 1766156620}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1767625888 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6761082967843036822, guid: d4864113c41bcb34985b13125d1fc7de, type: 3}
+  m_PrefabInstance: {fileID: 1282363624}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1776469838
 PrefabInstance:
