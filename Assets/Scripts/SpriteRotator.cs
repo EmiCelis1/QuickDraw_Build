@@ -9,9 +9,9 @@ public class SpriteRotator : MonoBehaviour
     {
         if (_doomMode && Camera.main != null)
         {
-            // Copia la rotación de la cámara para que siempre quede de frente al visor
+            
             Vector3 targetEuler = Camera.main.transform.rotation.eulerAngles;
-            transform.rotation = Quaternion.Euler(0, targetEuler.y, 0); // Bloquea los ejes X y Z para que no se incline de cabeza
+            transform.rotation = Quaternion.Euler(0, targetEuler.y, 0); 
         }
         else
         {

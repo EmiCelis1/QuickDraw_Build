@@ -25,7 +25,7 @@ public class EnemyAI : MonoBehaviour
     public LayerMask visionObstacleLayers;
 
     private EnemyAwareness enemyAwareness;
-    private Transform playerCameraTransform; // Referencia a la cabeza del jugador en VR
+    private Transform playerCameraTransform; 
     private NavMeshAgent enemyNavMeshAgent;
     private Enemy enemyScript;
 
@@ -35,7 +35,7 @@ public class EnemyAI : MonoBehaviour
         enemyNavMeshAgent = GetComponent<NavMeshAgent>();
         enemyScript = GetComponent<Enemy>();
 
-        // En VR, el "jugador" es la cámara principal (Head del XR Origin)
+        
         if (Camera.main != null)
         {
             playerCameraTransform = Camera.main.transform;

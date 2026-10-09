@@ -50,7 +50,7 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Verificamos si lo que entró en el trigger tiene el componente PlayerHealth
+        
         /*PlayerHealth player = other.GetComponent<PlayerHealth>();*/
 
         
