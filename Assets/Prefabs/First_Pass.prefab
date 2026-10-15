@@ -149,6 +149,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 956ed7256d8e4f5499d332cd4f3e3d50, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2885670371708234137}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 956ed7256d8e4f5499d332cd4f3e3d50, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4041020665956654151}
   m_SourcePrefab: {fileID: 100100000, guid: 956ed7256d8e4f5499d332cd4f3e3d50, type: 3}
 --- !u!4 &2736315589638359504 stripped
 Transform:
@@ -365,6 +368,22 @@ MonoBehaviour:
   firePoint: {fileID: 6761082967843036822}
   bulletSpeed: 30
   Flash: {fileID: 5527037591783369490, guid: 05eee6176910c5e418b65e32d24544fb, type: 3}
+  maxAmmo: 6
+--- !u!114 &4041020665956654151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3364901591532589930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e5f609980c9194d95c62d039f6bc0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GestureReload
+  gunShoot: {fileID: 2885670371708234137}
+  shakeThreshold: 3.5
+  reloadCooldown: 1
 --- !u!1001 &5618445726686608072
 PrefabInstance:
   m_ObjectHideFlags: 0
