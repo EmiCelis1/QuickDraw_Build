@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65eb17f16dc06a84f99e6f31fab35ec0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BulletManager
-  _bulletPrefab: {fileID: 0}
+  _bulletPrefab: {fileID: 2631002590310893006, guid: a9e150b5e2c415c4cbfbb230255569c2, type: 3}
   _defaultCapacity: 20
   _maxCapacity: 100
