@@ -11,6 +11,12 @@ public class SimpleGunShoot : MonoBehaviour
     public int maxAmmo = 6;
     private int currentAmmo;
 
+    [Header("Configuración de Sonido")]
+    public AudioSource audioSource;
+    public AudioClip sonidoDisparo;
+    public AudioClip sonidoRecarga;
+    public AudioClip sonidoVacio;
+
     void Start()
     {
         // Cargador lleno al iniciar
@@ -22,14 +28,14 @@ public class SimpleGunShoot : MonoBehaviour
         // No dispara si no hay munición
         if (currentAmmo <= 0)
         {
+            audioSource.PlayOneShot(sonidoVacio);
             Debug.Log("Sin munición");
-            // Sonido de municion vacia ?
             return;
         }
 
         currentAmmo--;
         Flash.Play();
-
+        audioSource.PlayOneShot(sonidoDisparo);
         GameObject bullet = BulletManager.Instance.GetBullet();
         bullet.transform.position = firePoint.position;
         bullet.transform.rotation = firePoint.rotation;
@@ -44,7 +50,7 @@ public class SimpleGunShoot : MonoBehaviour
     {
         currentAmmo = maxAmmo;
         Debug.Log("¡Arma recargada! Balas: " + currentAmmo);
-        // Sonido de recarga ?
+        audioSource.PlayOneShot(sonidoRecarga);
     }
 
     public int GetCurrentAmmo()
