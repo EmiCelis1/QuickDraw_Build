@@ -18,7 +18,7 @@ public class Enemy : MonoBehaviour
         spriteAnim = GetComponentInChildren<Animator>();
         /*angleToPlayer = GetComponent<AngleToPlayer>();*/
 
-        enemyManager = FindObjectOfType<EnemyManager>(); // we can do this because theres only (1) in the scene.
+        enemyManager = FindObjectOfType<EnemyManager>(); 
     }
 
     void Update()
@@ -51,7 +51,7 @@ public class Enemy : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         
-        /*PlayerHealth player = other.GetComponent<PlayerHealth>();*/
+        PlayerHealth player = other.GetComponent<PlayerHealth>();
 
         
     }
