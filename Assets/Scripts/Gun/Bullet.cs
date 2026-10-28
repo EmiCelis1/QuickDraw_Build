@@ -4,7 +4,7 @@ using System.Collections;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private float lifetime = 2f;
-    [SerializeField] private float bulletDamage = 1f; 
+    [SerializeField] private float bulletDamage = 1f;
 
     private Coroutine returnCoroutine;
     private bool isReturning = false;
@@ -23,14 +23,13 @@ public class Bullet : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        
-        Enemy enemy = collision.gameObject.GetComponentInParent<Enemy>();
-        if (enemy != null)
+        // Buscamos la interfaz IDamageable en lugar de la clase Enemy
+        IDamageable damageable = collision.gameObject.GetComponentInParent<IDamageable>();
+        if (damageable != null)
         {
-            enemy.TakeDamage(bulletDamage);
+            damageable.TakeDamage(bulletDamage);
         }
 
-        
         Deactivate();
     }
 
