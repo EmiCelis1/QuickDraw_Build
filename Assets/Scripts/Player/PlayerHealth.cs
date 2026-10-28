@@ -83,18 +83,7 @@ public class PlayerHealth : MonoBehaviour
             Destroy(pickup);
         }
         UpdateUI();
-    }
-
-    public void GiveArmor(int amount, GameObject pickup)
-    {
-        if (armor < maxArmor)
-        {
-            armor += amount;
-            if (armor > maxArmor) armor = maxArmor;
-            Destroy(pickup);
-        }
-        UpdateUI();
-    }
+    }   
 
     private void UpdateUI()
     {
