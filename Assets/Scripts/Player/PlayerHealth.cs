@@ -1,102 +1,132 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.XR.Interaction.Toolkit; 
+using UnityEngine.InputSystem; // Necesario para el nuevo Input System
 
-public class PlayerHealth : MonoBehaviour
+public interface IDamageable
 {
-    public int maxHealth = 100;
-    private int health;
+    void TakeDamage(int damage);
+}
 
-    public int maxArmor = 100;
-    private int armor;
+public interface IHealthProvider
+{
+    int CurrentHealth { get; }
+    int MaxHealth { get; }
+    int CurrentArmor { get; }
+    int MaxArmor { get; }
 
-    [Header("Opcional: Hápticos en VR al recibir daño")]
-    public bool enableHaptics = true;
-    [Range(0f, 1f)] public float hapticAmplitude = 0.5f;
-    public float hapticDuration = 0.2f;
+    event Action<int, int> OnHealthChanged;
+    event Action<int, int> OnArmorChanged;
+    event Action OnPlayerDeath;
+}
 
-    void Start()
+public class PlayerHealth : MonoBehaviour, IDamageable, IHealthProvider
+{
+    [Header("Configuración de Salud")]
+    [SerializeField] private int maxHealth = 100;
+    private int currentHealth;
+
+    [Header("Configuración de Escudo (Combo)")]
+    [SerializeField] private int maxArmor = 100;
+    private int currentArmor;
+
+    [Header("Hápticos en VR al recibir daño")]
+    [SerializeField] private bool enableHaptics = true;
+    [Range(0f, 1f)][SerializeField] private float hapticAmplitude = 0.5f;
+    [SerializeField] private float hapticDuration = 0.2f;
+
+    public event Action<int, int> OnHealthChanged;
+    public event Action<int, int> OnArmorChanged;
+    public event Action OnPlayerDeath;
+
+    public int CurrentHealth => currentHealth;
+    public int MaxHealth => maxHealth;
+    public int CurrentArmor => currentArmor;
+    public int MaxArmor => maxArmor;
+
+    private void Start()
     {
-        health = maxHealth;
-        armor = maxArmor; 
-
-        UpdateUI();
+        currentHealth = maxHealth;
+        currentArmor = maxArmor;
+        NotifyUI();
     }
 
-    void Update()
+    private void Update()
     {
-        // Test rápido con teclado (puedes mantenerlo para pruebas en el editor)
-        if (Input.GetKeyDown(KeyCode.RightShift))
+        // Tu tecla de debug intacta, adaptada al nuevo Input System para evitar errores
+        if (Keyboard.current != null && Keyboard.current.rightShiftKey.wasPressedThisFrame)
         {
-            DamagePlayer(30);
-            Debug.Log("Player has received damage (Test)");
+            TakeDamage(30);
+            Debug.Log("Player has received damage (Test Debug)");
         }
     }
 
-    public void DamagePlayer(int damage)
+    public void TakeDamage(int damage)
     {
-        if (armor > 0)
+        if (currentArmor > 0)
         {
-            if (armor >= damage)
+            if (currentArmor >= damage)
             {
-                armor -= damage;
+                currentArmor -= damage;
             }
             else
             {
-                int remainingDamage = damage - armor;
-                armor = 0;
-                health -= remainingDamage;
+                int remainingDamage = damage - currentArmor;
+                currentArmor = 0;
+                currentHealth = Mathf.Max(0, currentHealth - remainingDamage);
             }
         }
         else
         {
-            health -= damage;
+            currentHealth = Mathf.Max(0, currentHealth - damage);
         }
 
-        // Activar vibración en los mandos de VR para mayor inmersión
         if (enableHaptics)
         {
             TriggerVREffect();
         }
 
-        if (health <= 0)
+        NotifyUI();
+
+        if (currentHealth <= 0)
         {
-            health = 0;
-            Debug.Log("Player is dead");
-
-            // Reiniciar escena o activar pantalla de Game Over en VR
-            Scene currentScene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(currentScene.buildIndex);
+            HandleDeath();
         }
-
-        UpdateUI();
     }
 
-    public void GiveHealth(int amount, GameObject pickup)
+    public void GiveHealth(int amount)
     {
-        if (health < maxHealth)
+        if (currentHealth < maxHealth)
         {
-            health += amount;
-            if (health > maxHealth) health = maxHealth;
-            Destroy(pickup);
+            currentHealth = Mathf.Min(maxHealth, currentHealth + amount);
+            NotifyUI();
         }
-        UpdateUI();
-    }   
+    }
 
-    private void UpdateUI()
+    public void AddArmor(int amount)
     {
-        if (CanvasManager.Instance != null)
-        {
-            CanvasManager.Instance.UpdateHealthIndicator(health);
-            CanvasManager.Instance.UpdateArmorIndicator(armor);
-        }
+        currentArmor = Mathf.Min(maxArmor, currentArmor + amount);
+        NotifyUI();
+    }
+
+    private void NotifyUI()
+    {
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
+        OnArmorChanged?.Invoke(currentArmor, maxArmor);
+    }
+
+    private void HandleDeath()
+    {
+        Debug.Log("Player is dead");
+        OnPlayerDeath?.Invoke();
+
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.buildIndex);
     }
 
     private void TriggerVREffect()
     {
-        // Envía vibración a los controladores XR conectados
         List<UnityEngine.XR.InputDevice> devices = new List<UnityEngine.XR.InputDevice>();
         UnityEngine.XR.InputDevices.GetDevices(devices);
 
