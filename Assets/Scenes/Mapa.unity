@@ -534,8 +534,10 @@ GameObject:
   - component: {fileID: 127308858}
   - component: {fileID: 127308852}
   - component: {fileID: 127308857}
-  - component: {fileID: 127308856}
   - component: {fileID: 127308855}
+  - component: {fileID: 127308859}
+  - component: {fileID: 127308861}
+  - component: {fileID: 127308860}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -550,7 +552,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 127308851}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 501da8e4370d92f4396259bb11ab158e, type: 3}
   m_Name: 
@@ -608,27 +610,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAwareness
   awarenessRadius: 8
   isAggro: 0
---- !u!114 &127308856
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 127308851}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acde2893be4093b44a0eed5f16b7e0b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
-  typeOfEnemy: 0
-  projectilePrefab: {fileID: 2631002590310893006, guid: a9e150b5e2c415c4cbfbb230255569c2, type: 3}
-  firePoint: {fileID: 1767625888}
-  fireRate: 1.5
-  waypoints: []
-  waypointThreshold: 0.5
-  visionObstacleLayers:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!114 &127308857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -671,6 +652,61 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &127308859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127308851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ca6807072a018041a6ec952bc64b940, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteBillboard
+  playerCamera: {fileID: 1223147754}
+  invertDirectionForQuad: 1
+--- !u!114 &127308860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127308851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a20e8d73edc8184db831e76e3c2e242, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RangedEnemyAI
+  visionObstacleLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  projectilePrefab: {fileID: 0}
+  firePoint: {fileID: 0}
+  fireRate: 1.5
+  visionRange: 15
+--- !u!195 &127308861
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127308851}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1001 &137499705
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6254,6 +6290,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5033801203051696737, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7272110783782217534, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_RendererIndex
       value: 0
@@ -6265,7 +6305,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1717954561962503725, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1495543765}
   m_SourcePrefab: {fileID: 100100000, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
 --- !u!1001 &286946069
 PrefabInstance:
@@ -17818,6 +17861,11 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!4 &1223147754 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1767192434, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+  m_PrefabInstance: {fileID: 263502479}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1237597549
 GameObject:
   m_ObjectHideFlags: 0
@@ -19260,6 +19308,28 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1861089885}
   m_SourcePrefab: {fileID: 100100000, guid: abd5ec64d1f53944d91f925ba87f0817, type: 3}
+--- !u!1 &1495543764 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1717954561962503725, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+  m_PrefabInstance: {fileID: 263502479}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1495543765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1495543764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e38f42d576fad6a4ca2e8b50a180ec97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  maxHealth: 100
+  maxArmor: 100
+  enableHaptics: 1
+  hapticAmplitude: 0.5
+  hapticDuration: 0.2
 --- !u!1 &1498110956 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c6670241471ca874c9c726bbf5659e1d, type: 3}
@@ -21019,11 +21089,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b10c96cf10301744185cad6b4d5ba61d, type: 3}
   m_PrefabInstance: {fileID: 1766156620}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1767625888 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6761082967843036822, guid: d4864113c41bcb34985b13125d1fc7de, type: 3}
-  m_PrefabInstance: {fileID: 1282363624}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1776469838
 PrefabInstance:
