@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour, IDamageable, IScoreable
+public class Enemy : MonoBehaviour, /*IDamageable,*/ IScoreable
 {
     [Header("Estadísticas")]
     [SerializeField] private float health = 3f;
@@ -54,13 +54,3 @@ public class Enemy : MonoBehaviour, IDamageable, IScoreable
     }
 }
 
- 
-  /*  private void OnTriggerEnter(Collider other)
-    {
-        PlayerHealth player = other.GetComponent<PlayerHealth>();
-        if (player != null)
-        {
-            player.TakeDamage(attackDamage);
-        }
-    }
-}*/

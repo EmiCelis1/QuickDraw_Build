@@ -2,12 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.InputSystem; // Necesario para el nuevo Input System
+using UnityEngine.InputSystem; 
 
-public interface IDamageable
-{
-    void TakeDamage(int damage);
-}
 
 public interface IHealthProvider
 {
@@ -21,7 +17,7 @@ public interface IHealthProvider
     event Action OnPlayerDeath;
 }
 
-public class PlayerHealth : MonoBehaviour, IDamageable, IHealthProvider
+public class PlayerHealth : MonoBehaviour,  IHealthProvider
 {
     [Header("Configuración de Salud")]
     [SerializeField] private int maxHealth = 100;
@@ -54,7 +50,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealthProvider
 
     private void Update()
     {
-        // Tu tecla de debug intacta, adaptada al nuevo Input System para evitar errores
+     
         if (Keyboard.current != null && Keyboard.current.rightShiftKey.wasPressedThisFrame)
         {
             TakeDamage(30);
@@ -116,13 +112,22 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealthProvider
         OnArmorChanged?.Invoke(currentArmor, maxArmor);
     }
 
+    private bool isDead;
+
+    public void TakeDamage(float damage)
+    {
+        if (isDead) return; 
+        int dmg = Mathf.CeilToInt(damage);
+        
+    }
+
     private void HandleDeath()
     {
-        Debug.Log("Player is dead");
-        OnPlayerDeath?.Invoke();
+        if (isDead) return;
+        isDead = true;
 
-        Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currentScene.buildIndex);
+        Debug.Log("Player is dead");
+        OnPlayerDeath?.Invoke(); 
     }
 
     private void TriggerVREffect()
