@@ -940,8 +940,8 @@ PlayerSettings:
   editorAssembliesCompatibilityLevel: 1
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: QuickDraw_Build
-  metroPackageVersion: 
+  metroPackageName: QuickDrawBuild
+  metroPackageVersion: 1.0.0.0
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
@@ -949,7 +949,7 @@ PlayerSettings:
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: QuickDraw_Build
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: QuickDraw_Build
   metroTileShowName: 0
   metroMediumTileShowName: 0
   metroLargeTileShowName: 0
