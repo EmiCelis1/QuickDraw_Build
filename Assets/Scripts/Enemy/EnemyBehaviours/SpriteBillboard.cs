@@ -6,9 +6,6 @@ public class SpriteBillboard : MonoBehaviour
     [Tooltip("La cámara del visor VR. Si se deja vacío, busca Camera.main automáticamente.")]
     public Transform playerCamera;
 
-    [Header("Movimiento")]
-    public float moveSpeed = 2.0f;
-
     [Header("Ajuste de Quad")]
     [Tooltip("Los Quads de Unity suelen necesitar invertirse 180° para mostrar la cara frontal.")]
     public bool invertDirectionForQuad = true;
@@ -22,15 +19,11 @@ public class SpriteBillboard : MonoBehaviour
         }
     }
 
-    void Update()
+    void LateUpdate() // Usamos LateUpdate para que rote justo después de que el NavMeshAgent mueva al enemigo
     {
         if (playerCamera == null) return;
 
-        // --- 1. MOVIMIENTO HORIZONTAL (Eje Y fijo) ---
-        Vector3 targetPosition = new Vector3(playerCamera.position.x, transform.position.y, playerCamera.position.z);
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-
-        // --- 2. ROTACIÓN TIPO BILLBOARD SOLO EN EJE Y ---
+        // --- ROTACIÓN TIPO BILLBOARD SOLO EN EJE Y ---
         // Obtenemos el vector de dirección hacia la cámara
         Vector3 lookDirection = playerCamera.position - transform.position;
 
@@ -40,7 +33,7 @@ public class SpriteBillboard : MonoBehaviour
             lookDirection = -lookDirection;
         }
 
-        // Bloqueamos la inclinación vertical (Eje Y = 0)
+        // Bloqueamos la inclinación vertical (Eje Y = 0 para que no se incline hacia arriba o abajo)
         lookDirection.y = 0;
 
         if (lookDirection != Vector3.zero)
