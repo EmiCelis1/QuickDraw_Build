@@ -942,13 +942,8 @@ MonoBehaviour:
   features:
   - {fileID: 8736661028334727731}
   - {fileID: 3598254934845347770}
-<<<<<<< Updated upstream
   - {fileID: 8053909250545978819}
   - {fileID: -4325137763255010355}
-=======
-  - {fileID: -5778329049356297231}
-  - {fileID: 5283728840815918289}
->>>>>>> Stashed changes
   - {fileID: 1170704673688743257}
   - {fileID: -4352138005575186322}
   - {fileID: -2704800931075271787}
@@ -958,11 +953,7 @@ MonoBehaviour:
   - {fileID: -2487464772120170639}
   - {fileID: 8579781608529860403}
   - {fileID: -4006158474501928448}
-<<<<<<< Updated upstream
   - {fileID: -3833942400370568741}
-=======
-  - {fileID: -3540357022779950301}
->>>>>>> Stashed changes
   - {fileID: -8705318006256794946}
   - {fileID: 6481653220666705815}
   - {fileID: 7393116930172532905}
@@ -1329,11 +1320,7 @@ MonoBehaviour:
   targetOpenXRApiVersion: 
   required: 0
   customRuntimeLoaderName: 
-<<<<<<< Updated upstream
 --- !u!114 &-3108624196732284036
-=======
---- !u!114 &-3540357022779950301
->>>>>>> Stashed changes
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1343,11 +1330,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c36843bac48b29469f79baf3c98f9b6, type: 3}
-<<<<<<< Updated upstream
   m_Name: AndroidXRHandMeshData Android
-=======
-  m_Name: AndroidXRHandMeshData Standalone
->>>>>>> Stashed changes
   m_EditorClassIdentifier: Unity.XR.AndroidOpenXR::UnityEngine.XR.OpenXR.Features.Android.AndroidXRHandMeshData
   m_enabled: 0
   nameUi: 'Android XR: Hand Mesh Data'
@@ -1813,11 +1796,7 @@ MonoBehaviour:
   - {fileID: 7011443450567333355}
   - {fileID: -671281728444007487}
   - {fileID: 2051105749830685677}
-<<<<<<< Updated upstream
   - {fileID: 7014458139830654573}
-=======
-  - {fileID: 8132767294257996789}
->>>>>>> Stashed changes
   - {fileID: 5733726937747473166}
   - {fileID: 8980318060753866109}
   - {fileID: -6559185765804338520}
