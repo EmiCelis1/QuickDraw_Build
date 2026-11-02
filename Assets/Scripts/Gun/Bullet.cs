@@ -4,7 +4,7 @@ using System.Collections;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private float lifetime = 2f;
-    [SerializeField] private float bulletDamage = 1f; 
+    [SerializeField] private float bulletDamage = 1f;
 
     private Coroutine returnCoroutine;
     private bool isReturning = false;
@@ -23,14 +23,26 @@ public class Bullet : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        
-        Enemy enemy = collision.gameObject.GetComponentInParent<Enemy>();
-        if (enemy != null)
+        // Si ya nos estamos desactivando, ignoramos para evitar doble impacto
+        if (isReturning) return;
+
+        // Buscamos IDamageable tanto en el objeto colisionado como en sus padres
+        IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
+        if (damageable == null)
         {
-            enemy.TakeDamage(bulletDamage);
+            damageable = collision.gameObject.GetComponentInParent<IDamageable>();
         }
 
-        
+        if (damageable != null)
+        {
+            damageable.TakeDamage(bulletDamage);
+            Debug.Log($"[Bullet] Impacto exitoso en: {collision.gameObject.name}, aplicando {bulletDamage} de daño.");
+        }
+        else
+        {
+            Debug.LogWarning($"[Bullet] Chocó con {collision.gameObject.name}, pero NO implementa IDamageable.");
+        }
+
         Deactivate();
     }
 
@@ -44,6 +56,13 @@ public class Bullet : MonoBehaviour
             StopCoroutine(returnCoroutine);
         }
 
-        BulletManager.Instance.ReturnBullet(gameObject);
+        if (BulletManager.Instance != null)
+        {
+            BulletManager.Instance.ReturnBullet(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject); // Fallback por si acaso
+        }
     }
 }
