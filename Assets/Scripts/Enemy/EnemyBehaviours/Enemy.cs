@@ -1,4 +1,5 @@
 using UnityEngine;
+
 public class Enemy : MonoBehaviour, IDamageable, IScoreable
 {
     [Header("Estadísticas")]
@@ -9,15 +10,12 @@ public class Enemy : MonoBehaviour, IDamageable, IScoreable
     private bool isDead = false;
     private EnemyManager enemyManager;
 
-
     public int BasePoints => basePoints;
 
     private void Start()
     {
-
         enemyManager = FindFirstObjectByType<EnemyManager>();
     }
-
 
     public void TakeDamage(float amount)
     {
@@ -30,7 +28,6 @@ public class Enemy : MonoBehaviour, IDamageable, IScoreable
             Die();
         }
     }
-
 
     public void AwardScore()
     {
@@ -45,11 +42,16 @@ public class Enemy : MonoBehaviour, IDamageable, IScoreable
         if (isDead) return;
         isDead = true;
 
-
+        // 1. Otorgamos los puntos al sistema de score (Arcade)
         AwardScore();
 
+        // 2. Avisamos al EnemyManager que este enemigo murió para que lo remueva de la lista
+        if (enemyManager != null)
+        {
+            enemyManager.RemoveEnemy(this);
+        }
 
+        // 3. Destruimos el objeto de la escena
         Destroy(gameObject);
     }
-
 }

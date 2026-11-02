@@ -16,7 +16,7 @@ public class EnemyWaveSpawner : MonoBehaviour
     private int currentWaveIndex = 0;
     private bool isSpawning = false;
 
-    // Evento que se dispara al terminar una ronda. 
+    // Evento que se dispara al terminar una ronda
     public event Action<int> OnWaveCompleted;
     public event Action OnAllWavesCompleted;
 
@@ -24,8 +24,13 @@ public class EnemyWaveSpawner : MonoBehaviour
     {
         if (enemyManager == null)
         {
-            // Actualizado a la recomendación moderna de Unity
             enemyManager = FindFirstObjectByType<EnemyManager>();
+        }
+
+        if (enemyManager == null)
+        {
+            Debug.LogError("¡EnemyWaveSpawner no encontró ningún EnemyManager en la escena! Asígnalo en el inspector.");
+            return;
         }
 
         StartCoroutine(StartWaveSequence());
@@ -33,8 +38,7 @@ public class EnemyWaveSpawner : MonoBehaviour
 
     private IEnumerator StartWaveSequence()
     {
-        // Pequeña pausa antes de iniciar la primera ronda (Línea corregida)
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(2f); // Pausa inicial
 
         while (currentWaveIndex < waves.Count)
         {
@@ -44,12 +48,12 @@ public class EnemyWaveSpawner : MonoBehaviour
             // 1. Spawnea los enemigos de esta ronda
             yield return StartCoroutine(SpawnWaveRoutine(currentWave));
 
-            // 2. Espera hasta que todos los enemigos de la lista del EnemyManager sean derrotados
-            yield return new WaitUntil(() => enemyManager.enemiesInTrigger.Count == 0 && !isSimulatingOrSpawning());
+            // 2. Esperamos a que terminen de aparecer Y a que la lista del EnemyManager esté vacía
+            yield return new WaitUntil(() => !isSpawning && enemyManager.enemiesInTrigger.Count == 0);
 
             Debug.Log($"--- RONDA {currentWave.waveNumber} COMPLETADA ---");
 
-            // 3. Notificamos que la ronda terminó
+            // 3. Notificamos que la ronda terminó (Aquí actúa tu UI y el sistema de arcade)
             OnWaveCompleted?.Invoke(currentWave.waveNumber);
 
             // 4. Tiempo de descanso antes de la siguiente ronda
@@ -58,13 +62,8 @@ public class EnemyWaveSpawner : MonoBehaviour
             currentWaveIndex++;
         }
 
-        Debug.Log("Todas las rondas completadas con éxito");
+        Debug.Log("¡Todas las rondas completadas con éxito!");
         OnAllWavesCompleted?.Invoke();
-    }
-
-    private bool isSimulatingOrSpawning()
-    {
-        return isSpawning;
     }
 
     private IEnumerator SpawnWaveRoutine(WaveData wave)
@@ -87,18 +86,29 @@ public class EnemyWaveSpawner : MonoBehaviour
     {
         if (enemyPrefab == null) return;
 
+        // Si no hay puntos de spawn asignados, usa la posición del propio Spawner
         Transform spawnPoint = transform;
         if (spawnPoints != null && spawnPoints.Length > 0)
         {
-            spawnPoint = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)];
+            int randomIndex = UnityEngine.Random.Range(0, spawnPoints.Length);
+            if (spawnPoints[randomIndex] != null)
+            {
+                spawnPoint = spawnPoints[randomIndex];
+            }
         }
 
+        // Instanciamos el enemigo
         GameObject spawnedEnemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
 
+        // Nos aseguramos de registrarlo en el EnemyManager de forma directa y segura
         Enemy enemyComponent = spawnedEnemy.GetComponent<Enemy>();
         if (enemyComponent != null && enemyManager != null)
         {
             enemyManager.AddEnemy(enemyComponent);
+        }
+        else
+        {
+            Debug.LogWarning($"El prefab {enemyPrefab.name} no tiene el componente Enemy o falta el EnemyManager.");
         }
     }
 }
