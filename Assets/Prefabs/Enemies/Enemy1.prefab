@@ -30,7 +30,8 @@ Transform:
   m_LocalPosition: {x: -0.06, y: 1.62, z: 0}
   m_LocalScale: {x: 2, y: 2.5, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4204414030288779705}
   m_Father: {fileID: 5002569508892457876}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6984558857510990040
@@ -90,6 +91,37 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &4644292604537153930
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4204414030288779705}
+  m_Layer: 0
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4204414030288779705
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4644292604537153930}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.668}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8740671117483758806}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &6907968574861731803
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,7 +223,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   health: 3
   basePoints: 100
-  attackDamage: 10
+  attackDamage: 15
 --- !u!114 &5007428654876146784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,7 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73843b9ef7625b54eafb1d20937edfb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAwareness
-  awarenessRadius: 8
+  awarenessRadius: 13
   isAggro: 0
 --- !u!114 &175182898240723395
 MonoBehaviour:
@@ -257,7 +289,7 @@ MonoBehaviour:
   visionObstacleLayers:
     serializedVersion: 2
     m_Bits: 0
-  projectilePrefab: {fileID: 0}
-  firePoint: {fileID: 0}
+  projectilePrefab: {fileID: 2235802318145681399, guid: 25317bb422182914ba83a231cd22f5a5, type: 3}
+  firePoint: {fileID: 4204414030288779705}
   fireRate: 1.5
   visionRange: 15

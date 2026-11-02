@@ -6191,6 +6191,67 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c1d3338e1a583f748afc473a8836bc15, type: 3}
   m_PrefabInstance: {fileID: 2065231528}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &219553569
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 93240755506450906, guid: d4864113c41bcb34985b13125d1fc7de, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2736315589638359504, guid: d4864113c41bcb34985b13125d1fc7de, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -11.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 2736315589638359504, guid: d4864113c41bcb34985b13125d1fc7de, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.61
+      objectReference: {fileID: 0}
+    - target: {fileID: 2736315589638359504, guid: d4864113c41bcb34985b13125d1fc7de, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -28.29
+      objectReference: {fileID: 0}
+    - target: {fileID: 2736315589638359504, guid: d4864113c41bcb34985b13125d1fc7de, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2736315589638359504, guid: d4864113c41bcb34985b13125d1fc7de, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2736315589638359504, guid: d4864113c41bcb34985b13125d1fc7de, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2736315589638359504, guid: d4864113c41bcb34985b13125d1fc7de, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2736315589638359504, guid: d4864113c41bcb34985b13125d1fc7de, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2736315589638359504, guid: d4864113c41bcb34985b13125d1fc7de, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2736315589638359504, guid: d4864113c41bcb34985b13125d1fc7de, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3364901591532589930, guid: d4864113c41bcb34985b13125d1fc7de, type: 3}
+      propertyPath: m_Name
+      value: First_Pass (2)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d4864113c41bcb34985b13125d1fc7de, type: 3}
 --- !u!1 &234323483
 GameObject:
   m_ObjectHideFlags: 0
@@ -7114,17 +7175,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 399220131}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d6dd01c1ac460649900efe63822c8d2, type: 3}
+  m_Script: {fileID: 11500000, guid: 809e2edb41afef54ab9d064f1f8c5bc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameOverUI
-  playerHealth: {fileID: 0}
-  playerCamera: {fileID: 0}
-  gameOverPanel: {fileID: 0}
+  playerCamera: {fileID: 798174330}
+  gameOverPanel: {fileID: 1737313342}
   distanciaAlJugador: 2
-  roundsText: {fileID: 0}
-  scoreText: {fileID: 0}
-  killsText: {fileID: 0}
-  rankText: {fileID: 0}
+  roundsText: {fileID: 539988930}
+  scoreText: {fileID: 105489943}
+  killsText: {fileID: 100358123}
+  rankText: {fileID: 1037098009}
   minS: 100000
   minA: 75000
   minB: 50000
@@ -9830,7 +9890,6 @@ GameObject:
   - component: {fileID: 742338529}
   - component: {fileID: 742338528}
   - component: {fileID: 742338527}
-  - component: {fileID: 742338530}
   m_Layer: 5
   m_Name: GameOverCanvas
   m_TagString: Untagged
@@ -9921,35 +9980,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &742338530
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 742338525}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 809e2edb41afef54ab9d064f1f8c5bc0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GameOverUI
-  playerHealth: {fileID: 1495543765}
-  playerCamera: {fileID: 798174330}
-  gameOverPanel: {fileID: 1737313342}
-  distanciaAlJugador: 2
-  roundsText: {fileID: 539988930}
-  scoreText: {fileID: 105489943}
-  killsText: {fileID: 100358123}
-  rankText: {fileID: 1037098009}
-  minS: 100000
-  minA: 75000
-  minB: 50000
-  minC: 40000
-  rankSColor: {r: 1, g: 0.84, b: 0, a: 1}
-  rankAColor: {r: 0.2, g: 0.8, b: 0.2, a: 1}
-  rankBColor: {r: 0.2, g: 0.6, b: 1, a: 1}
-  rankCColor: {r: 1, g: 0.6, b: 0, a: 1}
-  rankFColor: {r: 0.8, g: 0.1, b: 0.1, a: 1}
 --- !u!1001 &742784198
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19568,11 +19598,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2736315589638359504, guid: d4864113c41bcb34985b13125d1fc7de, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.61
       objectReference: {fileID: 0}
     - target: {fileID: 2736315589638359504, guid: d4864113c41bcb34985b13125d1fc7de, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -29.31507
+      value: -28.29
       objectReference: {fileID: 0}
     - target: {fileID: 2736315589638359504, guid: d4864113c41bcb34985b13125d1fc7de, type: 3}
       propertyPath: m_LocalRotation.w
@@ -25488,6 +25518,7 @@ SceneRoots:
   - {fileID: 1828412575}
   - {fileID: 1961839214}
   - {fileID: 1282363624}
+  - {fileID: 219553569}
   - {fileID: 1305408247}
   - {fileID: 494292245}
   - {fileID: 1862838346}

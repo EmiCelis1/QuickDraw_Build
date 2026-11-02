@@ -29,7 +29,7 @@ public class EnemyWaveSpawner : MonoBehaviour
 
         if (enemyManager == null)
         {
-            Debug.LogError("¡EnemyWaveSpawner no encontró ningún EnemyManager en la escena! Asígnalo en el inspector.");
+            Debug.LogError("EnemyWaveSpawner no encontró ningún EnemyManager en la escena");
             return;
         }
 
@@ -43,7 +43,7 @@ public class EnemyWaveSpawner : MonoBehaviour
         while (currentWaveIndex < waves.Count)
         {
             WaveData currentWave = waves[currentWaveIndex];
-            Debug.Log($"--- INICIANDO RONDA {currentWave.waveNumber} ---");
+            Debug.Log($"- ROUND START {currentWave.waveNumber} -");
 
             // 1. Spawnea los enemigos de esta ronda
             yield return StartCoroutine(SpawnWaveRoutine(currentWave));
@@ -51,12 +51,18 @@ public class EnemyWaveSpawner : MonoBehaviour
             // 2. Esperamos a que terminen de aparecer Y a que la lista del EnemyManager esté vacía
             yield return new WaitUntil(() => !isSpawning && enemyManager.enemiesInTrigger.Count == 0);
 
-            Debug.Log($"--- RONDA {currentWave.waveNumber} COMPLETADA ---");
+            Debug.Log($"- ROUND {currentWave.waveNumber} COMPLETE -");
 
-            // 3. Notificamos que la ronda terminó (Aquí actúa tu UI y el sistema de arcade)
+            // 3. Registramos la ronda superada en GameStats
+            if (GameStats.Instance != null)
+            {
+                GameStats.Instance.RoundCompleted();
+            }
+
+            // 4. Notificamos que la ronda terminó (Para UI u otros sistemas)
             OnWaveCompleted?.Invoke(currentWave.waveNumber);
 
-            // 4. Tiempo de descanso antes de la siguiente ronda
+            // 5. Tiempo de descanso antes de la siguiente ronda
             yield return new WaitForSeconds(preparationTimeBetweenWaves);
 
             currentWaveIndex++;

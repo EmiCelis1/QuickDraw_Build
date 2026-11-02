@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class WaveUIManager : MonoBehaviour
 {
-    [Header("Referencias")]
-    [Tooltip("El componente de texto (TextMeshProUGUI) que mostrará el número de ronda.")]
+    [Header("Round Reference")]
+    [Tooltip("Round Text")]
     [SerializeField] private TextMeshProUGUI waveText;
-    [Tooltip("El Spawner de rondas de la escena.")]
+    [Tooltip("Wave Spawner Class Reference")]
     [SerializeField] private EnemyWaveSpawner waveSpawner;
 
-    [Header("Configuración HUD VR")]
+    [Header("HUD VR Settings")]
     [Tooltip("Distancia frente a la cámara a la que flotará el texto.")]
     [SerializeField] private float distanceFromCamera = 1.5f;
-    [Tooltip("Altura respecto al centro de la cámara.")]
+    [Tooltip("Height Offset")]
     [SerializeField] private float heightOffset = -0.2f;
-    [Tooltip("Velocidad con la que el texto sigue la mirada (para que no vibre bruscamente).")]
+    [Tooltip("Follow up text.")]
     [SerializeField] private float followSpeed = 5f;
 
     private Transform playerCameraTransform;
@@ -41,7 +41,7 @@ public class WaveUIManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("No se encontró ninguna MainCamera para el HUD de VR.");
+            Debug.LogError("No hay GameCamera en el VR");
         }
 
         // Nos suscribimos al evento de los Spawner
@@ -92,10 +92,10 @@ public class WaveUIManager : MonoBehaviour
     {
         if (waveText != null)
         {
-            waveText.text = $"¡RONDA {waveNumber} COMPLETADA!";
+            waveText.text = $"ROUND {waveNumber} COMPLETE";
             waveText.gameObject.SetActive(true);
 
-            // Mantenemos el texto en pantalla durante un tiempo maximo
+            // El texto se queda en pantalla durante un tiempo maximo
             yield return new WaitForSeconds(3f);
 
             waveText.gameObject.SetActive(false);

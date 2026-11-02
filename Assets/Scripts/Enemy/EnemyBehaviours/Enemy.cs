@@ -42,16 +42,23 @@ public class Enemy : MonoBehaviour, IDamageable, IScoreable
         if (isDead) return;
         isDead = true;
 
-        // 1. Otorgamos los puntos al sistema de score (Arcade)
+        // 1. Registramos la baja y los puntos en GameStats de forma global
+        if (GameStats.Instance != null)
+        {
+            GameStats.Instance.AddKill();
+            GameStats.Instance.AddScore(basePoints);
+        }
+
+        // 2. Otorgamos los puntos al sistema de score (Arcade) si lo usas
         AwardScore();
 
-        // 2. Avisamos al EnemyManager que este enemigo murió para que lo remueva de la lista
+        // 3. Avisamos al EnemyManager que este enemigo murió para que lo remueva de la lista
         if (enemyManager != null)
         {
             enemyManager.RemoveEnemy(this);
         }
 
-        // 3. Destruimos el objeto de la escena
+        // 4. Destruimos el objeto de la escena
         Destroy(gameObject);
     }
 }
