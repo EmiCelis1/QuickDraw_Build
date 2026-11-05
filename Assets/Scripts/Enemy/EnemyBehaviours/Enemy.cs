@@ -1,58 +1,64 @@
-using System;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IDamageable, IScoreable
 {
-    private EnemyManager enemyManager;
-    private Animator spriteAnim;
-    /*private AngleToPlayer angleToPlayer;*/
-
-    public float enemyHealth = 2f;
-
-    public GameObject gunHitEffect;
-
+    [Header("Estadísticas")]
+    [SerializeField] private float health = 3f;
+    [SerializeField] private int basePoints = 100;
     public int attackDamage = 10;
+
+    private bool isDead = false;
+    private EnemyManager enemyManager;
+
+    public int BasePoints => basePoints;
 
     private void Start()
     {
-        spriteAnim = GetComponentInChildren<Animator>();
-        /*angleToPlayer = GetComponent<AngleToPlayer>();*/
-
-        enemyManager = FindObjectOfType<EnemyManager>(); 
+        enemyManager = FindFirstObjectByType<EnemyManager>();
     }
 
-    void Update()
+    public void TakeDamage(float amount)
     {
-        // Al inicio del update seteamos el índice de rotación de las animaciones
-        /*spriteAnim.SetFloat("spriteRot", angleToPlayer.lastIndex);*/
+        if (isDead) return;
 
-        if (enemyHealth <= 0)
+        health -= amount;
+
+        if (health <= 0f)
         {
-            // Validamos si realmente existe el enemyManager antes de llamarlo
-            if (enemyManager != null)
-            {
-                enemyManager.RemoveEnemy(this);
-            }
-            else
-            {
-                Debug.LogWarning($"Se destruyó {gameObject.name} pero no se encontró un EnemyManager en la escena.");
-            }
-
-            Destroy(gameObject);
+            Die();
         }
     }
 
-    public void TakeDamage(float damage)
+    public void AwardScore()
     {
-        Instantiate(gunHitEffect, transform.position, Quaternion.identity);
-        enemyHealth -= damage;
+        if (ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.RegisterKill(this);
+        }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void Die()
     {
-        
-        PlayerHealth player = other.GetComponent<PlayerHealth>();
+        if (isDead) return;
+        isDead = true;
 
-        
+        // 1. Registramos la baja y los puntos en GameStats de forma global
+        if (GameStats.Instance != null)
+        {
+            GameStats.Instance.AddKill();
+            GameStats.Instance.AddScore(basePoints);
+        }
+
+        // 2. Otorgamos los puntos al sistema de score (Arcade) si lo usas
+        AwardScore();
+
+        // 3. Avisamos al EnemyManager que este enemigo murió para que lo remueva de la lista
+        if (enemyManager != null)
+        {
+            enemyManager.RemoveEnemy(this);
+        }
+
+        // 4. Destruimos el objeto de la escena
+        Destroy(gameObject);
     }
 }

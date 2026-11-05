@@ -1,13 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.InputSystem; // Necesario para el nuevo Input System
-
-public interface IDamageable
-{
-    void TakeDamage(int damage);
-}
+using UnityEngine.InputSystem;
 
 public interface IHealthProvider
 {
@@ -21,7 +15,7 @@ public interface IHealthProvider
     event Action OnPlayerDeath;
 }
 
-public class PlayerHealth : MonoBehaviour, IDamageable, IHealthProvider
+public class PlayerHealth : MonoBehaviour, IHealthProvider
 {
     [Header("Configuración de Salud")]
     [SerializeField] private int maxHealth = 100;
@@ -45,6 +39,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealthProvider
     public int CurrentArmor => currentArmor;
     public int MaxArmor => maxArmor;
 
+    private bool isDead;
+
     private void Start()
     {
         currentHealth = maxHealth;
@@ -54,7 +50,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealthProvider
 
     private void Update()
     {
-        // Tu tecla de debug intacta, adaptada al nuevo Input System para evitar errores
         if (Keyboard.current != null && Keyboard.current.rightShiftKey.wasPressedThisFrame)
         {
             TakeDamage(30);
@@ -62,8 +57,22 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealthProvider
         }
     }
 
+    // Sobrecarga para enteros (Teclado / UI / Daño directo)
     public void TakeDamage(int damage)
     {
+        ApplyDamage(damage);
+    }
+
+    // Sobrecarga para flotantes (Compatible con proyectiles u otras fuentes)
+    public void TakeDamage(float damage)
+    {
+        ApplyDamage(Mathf.CeilToInt(damage));
+    }
+
+    private void ApplyDamage(int damage)
+    {
+        if (isDead) return;
+
         if (currentArmor > 0)
         {
             if (currentArmor >= damage)
@@ -72,7 +81,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealthProvider
             }
             else
             {
-                int remainingDamage = damage - currentArmor;
+                int remainingDamage = damage - currentArmor; // Corregido el error de sintaxis aquí
                 currentArmor = 0;
                 currentHealth = Mathf.Max(0, currentHealth - remainingDamage);
             }
@@ -97,15 +106,14 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealthProvider
 
     public void GiveHealth(int amount)
     {
-        if (currentHealth < maxHealth)
-        {
-            currentHealth = Mathf.Min(maxHealth, currentHealth + amount);
-            NotifyUI();
-        }
+        if (isDead) return;
+        currentHealth = Mathf.Min(maxHealth, currentHealth + amount);
+        NotifyUI();
     }
 
     public void AddArmor(int amount)
     {
+        if (isDead) return;
         currentArmor = Mathf.Min(maxArmor, currentArmor + amount);
         NotifyUI();
     }
@@ -118,11 +126,11 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealthProvider
 
     private void HandleDeath()
     {
+        if (isDead) return;
+        isDead = true;
+
         Debug.Log("Player is dead");
         OnPlayerDeath?.Invoke();
-
-        Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currentScene.buildIndex);
     }
 
     private void TriggerVREffect()
