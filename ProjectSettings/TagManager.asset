@@ -5,8 +5,6 @@ TagManager:
   serializedVersion: 3
   tags:
   - Anchor
-  - MapTerrain
-  - Environment
   layers:
   - Default
   - TransparentFX
