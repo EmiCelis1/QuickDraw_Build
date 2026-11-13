@@ -1,113 +1,140 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.XR.Interaction.Toolkit; 
+using UnityEngine.InputSystem;
 
-public class PlayerHealth : MonoBehaviour
+public interface IHealthProvider
 {
-    public int maxHealth = 100;
-    private int health;
+    int CurrentHealth { get; }
+    int MaxHealth { get; }
+    int CurrentArmor { get; }
+    int MaxArmor { get; }
 
-    public int maxArmor = 100;
-    private int armor;
+    event Action<int, int> OnHealthChanged;
+    event Action<int, int> OnArmorChanged;
+    event Action OnPlayerDeath;
+}
 
-    [Header("Opcional: Hápticos en VR al recibir daño")]
-    public bool enableHaptics = true;
-    [Range(0f, 1f)] public float hapticAmplitude = 0.5f;
-    public float hapticDuration = 0.2f;
+public class PlayerHealth : MonoBehaviour, IHealthProvider
+{
+    [Header("Configuración de Salud")]
+    [SerializeField] private int maxHealth = 100;
+    private int currentHealth;
 
-    void Start()
+    [Header("Configuración de Escudo (Combo)")]
+    [SerializeField] private int maxArmor = 100;
+    private int currentArmor;
+
+    [Header("Hápticos en VR al recibir daño")]
+    [SerializeField] private bool enableHaptics = true;
+    [Range(0f, 1f)][SerializeField] private float hapticAmplitude = 0.5f;
+    [SerializeField] private float hapticDuration = 0.2f;
+
+    public event Action<int, int> OnHealthChanged;
+    public event Action<int, int> OnArmorChanged;
+    public event Action OnPlayerDeath;
+
+    public int CurrentHealth => currentHealth;
+    public int MaxHealth => maxHealth;
+    public int CurrentArmor => currentArmor;
+    public int MaxArmor => maxArmor;
+
+    private bool isDead;
+
+    private void Start()
     {
-        health = maxHealth;
-        armor = maxArmor; 
-
-        UpdateUI();
+        currentHealth = maxHealth;
+        currentArmor = maxArmor;
+        NotifyUI();
     }
 
-    void Update()
+    private void Update()
     {
-        // Test rápido con teclado (puedes mantenerlo para pruebas en el editor)
-        if (Input.GetKeyDown(KeyCode.RightShift))
+        if (Keyboard.current != null && Keyboard.current.rightShiftKey.wasPressedThisFrame)
         {
-            DamagePlayer(30);
-            Debug.Log("Player has received damage (Test)");
+            TakeDamage(30);
+            Debug.Log("Player has received damage (Test Debug)");
         }
     }
 
-    public void DamagePlayer(int damage)
+    // Sobrecarga para enteros (Teclado / UI / Daño directo)
+    public void TakeDamage(int damage)
     {
-        if (armor > 0)
+        ApplyDamage(damage);
+    }
+
+    // Sobrecarga para flotantes (Compatible con proyectiles u otras fuentes)
+    public void TakeDamage(float damage)
+    {
+        ApplyDamage(Mathf.CeilToInt(damage));
+    }
+
+    private void ApplyDamage(int damage)
+    {
+        if (isDead) return;
+
+        if (currentArmor > 0)
         {
-            if (armor >= damage)
+            if (currentArmor >= damage)
             {
-                armor -= damage;
+                currentArmor -= damage;
             }
             else
             {
-                int remainingDamage = damage - armor;
-                armor = 0;
-                health -= remainingDamage;
+                int remainingDamage = damage - currentArmor; // Corregido el error de sintaxis aquí
+                currentArmor = 0;
+                currentHealth = Mathf.Max(0, currentHealth - remainingDamage);
             }
         }
         else
         {
-            health -= damage;
+            currentHealth = Mathf.Max(0, currentHealth - damage);
         }
 
-        // Activar vibración en los mandos de VR para mayor inmersión
         if (enableHaptics)
         {
             TriggerVREffect();
         }
 
-        if (health <= 0)
+        NotifyUI();
+
+        if (currentHealth <= 0)
         {
-            health = 0;
-            Debug.Log("Player is dead");
-
-            // Reiniciar escena o activar pantalla de Game Over en VR
-            Scene currentScene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(currentScene.buildIndex);
+            HandleDeath();
         }
-
-        UpdateUI();
     }
 
-    public void GiveHealth(int amount, GameObject pickup)
+    public void GiveHealth(int amount)
     {
-        if (health < maxHealth)
-        {
-            health += amount;
-            if (health > maxHealth) health = maxHealth;
-            Destroy(pickup);
-        }
-        UpdateUI();
+        if (isDead) return;
+        currentHealth = Mathf.Min(maxHealth, currentHealth + amount);
+        NotifyUI();
     }
 
-    public void GiveArmor(int amount, GameObject pickup)
+    public void AddArmor(int amount)
     {
-        if (armor < maxArmor)
-        {
-            armor += amount;
-            if (armor > maxArmor) armor = maxArmor;
-            Destroy(pickup);
-        }
-        UpdateUI();
+        if (isDead) return;
+        currentArmor = Mathf.Min(maxArmor, currentArmor + amount);
+        NotifyUI();
     }
 
-    private void UpdateUI()
+    private void NotifyUI()
     {
-        if (CanvasManager.Instance != null)
-        {
-            CanvasManager.Instance.UpdateHealthIndicator(health);
-            CanvasManager.Instance.UpdateArmorIndicator(armor);
-        }
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
+        OnArmorChanged?.Invoke(currentArmor, maxArmor);
+    }
+
+    private void HandleDeath()
+    {
+        if (isDead) return;
+        isDead = true;
+
+        Debug.Log("Player is dead");
+        OnPlayerDeath?.Invoke();
     }
 
     private void TriggerVREffect()
     {
-        // Envía vibración a los controladores XR conectados
         List<UnityEngine.XR.InputDevice> devices = new List<UnityEngine.XR.InputDevice>();
         UnityEngine.XR.InputDevices.GetDevices(devices);
 
