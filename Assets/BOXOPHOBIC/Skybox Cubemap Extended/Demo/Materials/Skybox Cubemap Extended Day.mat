@@ -86,7 +86,7 @@ Material:
     - _Advancedd: 1
     - _BumpScale: 1
     - _CUBEMAPP: 1
-    - _CubemapPosition: 0
+    - _CubemapPosition: -0.33
     - _Cubemapp: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -96,11 +96,11 @@ Material:
     - _Exposure: 1
     - _Float0: 0
     - _FogFill: 0
-    - _FogHeight: 0.497
+    - _FogHeight: 0.41
     - _FogIntensity: 1
     - _FogMessage: 0
     - _FogPosition: 0
-    - _FogSmoothness: 0.01
+    - _FogSmoothness: 0.18
     - _Fogg: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
@@ -125,6 +125,6 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Tex_HDR: {r: 1, g: 1, b: 0, a: 0}
-    - _TintColor: {r: 1, g: 0.7727073, b: 0.5113207, a: 1}
+    - _TintColor: {r: 0.5529412, g: 0.652447, b: 0.9529412, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
