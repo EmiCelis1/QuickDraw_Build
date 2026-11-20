@@ -6,11 +6,13 @@ using UnityEngine.UI;
 public class UI_Manager : MonoBehaviour
 {
     public GameObject settingsPanel;
+    public Button start;
     public Button settings;
     public Button closeSettings;
 
     void Start()
     {
+        start.onClick.AddListener(StartGame);
         settingsPanel.SetActive(false);
         settings.onClick.AddListener(OpenSettings);
         closeSettings.onClick.AddListener(CloseSettings);
@@ -21,9 +23,10 @@ public class UI_Manager : MonoBehaviour
         settingsPanel.SetActive(true);
     } 
 
-    public void StartGame(string name)
+    public void StartGame()
     {
-        SceneManager.LoadScene(name);
+        SceneManager.LoadScene("Mapa");
+        Debug.Log("apretado");
     }
 
     public void QuitGame()
