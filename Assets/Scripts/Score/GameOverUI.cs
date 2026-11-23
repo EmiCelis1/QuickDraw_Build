@@ -5,10 +5,14 @@ using TMPro;
 public class GameOverUI : MonoBehaviour
 {
     [Header("Referencias")]
-    public PlayerHealth playerHealth;
-    public Transform playerCamera;          
+    private PlayerHealth playerHealth;
+    public Transform playerCamera;
     public GameObject gameOverPanel;
     public float distanciaAlJugador = 2f;
+
+    [Header("Canvas de HUD / Score a Ocultar")]
+    [Tooltip("Arrastra aquí el GameObject del Canvas que muestra el score y las rondas mientras juegas")]
+    [SerializeField] private GameObject hudCanvasToHide;
 
     [Header("Textos (TextMeshPro)")]
     public TextMeshProUGUI roundsText;
@@ -29,48 +33,89 @@ public class GameOverUI : MonoBehaviour
     public Color rankCColor = new Color(1f, 0.6f, 0f);
     public Color rankFColor = new Color(0.8f, 0.1f, 0.1f);
 
-    private void Start()
+    private void Awake()
     {
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
+
+        // Busca automáticamente el componente PlayerHealth en la escena
+        playerHealth = FindFirstObjectByType<PlayerHealth>();
+
+        if (playerHealth == null)
+        {
+            Debug.LogError("GameOverUI no pudo encontrar ningún componente PlayerHealth en la escena.");
+        }
     }
 
     private void OnEnable()
     {
-        if (playerHealth != null) playerHealth.OnPlayerDeath += OnPlayerDied;
+        if (playerHealth != null)
+        {
+            playerHealth.OnPlayerDeath += OnPlayerDied;
+        }
     }
 
     private void OnDisable()
     {
-        if (playerHealth != null) playerHealth.OnPlayerDeath -= OnPlayerDied;
+        if (playerHealth != null)
+        {
+            playerHealth.OnPlayerDeath -= OnPlayerDied;
+        }
     }
 
     private void OnPlayerDied()
     {
+        // 1. Pausamos el juego por completo para que los enemigos se detengan
+        Time.timeScale = 0f;
+
+        // 2. Ocultamos el Canvas del HUD/Score en juego si está asignado
+        if (hudCanvasToHide != null)
+        {
+            hudCanvasToHide.SetActive(false);
+        }
+
         var stats = GameStats.Instance;
-        MostrarGameOver(stats.Score, stats.Kills, stats.RoundsSurvived);
+
+        if (stats != null)
+        {
+            MostrarGameOver(stats.Score, stats.Kills, stats.RoundsSurvived);
+        }
+        else
+        {
+            Debug.LogWarning("GameStats.Instance no encontrado en la escena. Mostrando valores en 0.");
+            MostrarGameOver(0, 0, 0);
+        }
     }
 
     public void MostrarGameOver(int finalScore, int totalKills, int rounds)
     {
-       
-        Vector3 forward = playerCamera.forward;
-        forward.y = 0f;
-        forward.Normalize();
-        Vector3 pos = playerCamera.position + forward * distanciaAlJugador;
+        if (playerCamera == null && Camera.main != null)
+        {
+            playerCamera = Camera.main.transform;
+        }
 
-        gameOverPanel.transform.position = pos;
-        gameOverPanel.transform.rotation = Quaternion.LookRotation(pos - playerCamera.position);
-        gameOverPanel.SetActive(true);
+        if (playerCamera != null && gameOverPanel != null)
+        {
+            Vector3 forward = playerCamera.forward;
+            forward.y = 0f;
+            forward.Normalize();
+            Vector3 pos = playerCamera.position + forward * distanciaAlJugador;
 
-        roundsText.text = "RONDAS SUPERADAS: " + rounds;
-        scoreText.text = "PUNTUACIÓN: " + finalScore.ToString("N0");
-        killsText.text = "ENEMIGOS ELIMINADOS: " + totalKills;
+            gameOverPanel.transform.position = pos;
+            gameOverPanel.transform.rotation = Quaternion.LookRotation(pos - playerCamera.position);
+            gameOverPanel.SetActive(true);
+        }
+
+        if (roundsText != null) roundsText.text = "RONDAS SUPERADAS: " + rounds;
+        if (scoreText != null) scoreText.text = "PUNTUACIÓN: " + finalScore.ToString("N0");
+        if (killsText != null) killsText.text = "ENEMIGOS ELIMINADOS: " + totalKills;
 
         CalcularRango(finalScore);
     }
 
     private void CalcularRango(int score)
     {
+        if (rankText == null) return;
+
         string letra; Color color;
 
         if (score >= minS) { letra = "S"; color = rankSColor; }
@@ -85,12 +130,14 @@ public class GameOverUI : MonoBehaviour
 
     public void BotonReintentar()
     {
+        // Importante restablecer el tiempo a 1 antes de recargar la escena
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void BotonSalirOMenu(string nombreEscenaMenu)
     {
+        // Restablecer el tiempo a 1 antes de cambiar de escena
         Time.timeScale = 1f;
         SceneManager.LoadScene(nombreEscenaMenu);
     }
