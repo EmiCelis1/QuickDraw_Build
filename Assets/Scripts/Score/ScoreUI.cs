@@ -33,7 +33,7 @@ public class ScoreUI : MonoBehaviour
 
     private void UpdateScoreDisplay(int score, int multiplier)
     {
-        scoreText.text = $"SCORE: {score:N0}";
+        scoreText.text = $"{score:N0}";
 
     
         if (multiplier > 1)

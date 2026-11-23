@@ -14,6 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.XR.OpenXR::UnityEngine.XR.OpenXR.OpenXRSettings
   features:
   - {fileID: -2825628744864671564}
+  - {fileID: 2394617790624629913}
+  - {fileID: -6536179795307932078}
+  - {fileID: -6780617794179397753}
+  - {fileID: -5565115365713094941}
+  - {fileID: 4221181203409296178}
+  - {fileID: 2371998300974286092}
+  - {fileID: -5585723609840844255}
+  - {fileID: -3298637326455412459}
+  - {fileID: -1785277160319140061}
+  - {fileID: 8141391355946511903}
+  - {fileID: -4245383174086927199}
+  - {fileID: -7406048580054080841}
+  - {fileID: -1614890197351289715}
   - {fileID: 8367013931445929840}
   - {fileID: 4580396989586426906}
   - {fileID: -5110260767547346349}
@@ -155,6 +168,7 @@ MonoBehaviour:
   targetOpenXRApiVersion: 
   required: 0
   customRuntimeLoaderName: 
+  optionalFeatures: []
   symmetricProjection: 0
   optimizeBufferDiscards: 1
   multiviewRenderRegionsOptimizationMode: 0

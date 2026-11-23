@@ -11,7 +11,7 @@ public class EnemyWaveSpawner : MonoBehaviour
     [SerializeField] private float preparationTimeBetweenWaves = 5f;
 
     [Header("Referencias")]
-    [SerializeField] private EnemyManager enemyManager;
+    public EnemyManager enemyManager;
 
     private int currentWaveIndex = 0;
     private bool isSpawning = false;
@@ -29,7 +29,7 @@ public class EnemyWaveSpawner : MonoBehaviour
 
         if (enemyManager == null)
         {
-            Debug.LogError("EnemyWaveSpawner no encontró ningún EnemyManager en la escena");
+            Debug.LogError("¡EnemyWaveSpawner no encontró ningún EnemyManager en la escena! Asígnalo en el inspector.");
             return;
         }
 
@@ -43,7 +43,7 @@ public class EnemyWaveSpawner : MonoBehaviour
         while (currentWaveIndex < waves.Count)
         {
             WaveData currentWave = waves[currentWaveIndex];
-            Debug.Log($"- ROUND START {currentWave.waveNumber} -");
+            Debug.Log($"--- INICIANDO RONDA {currentWave.waveNumber} ---");
 
             // 1. Spawnea los enemigos de esta ronda
             yield return StartCoroutine(SpawnWaveRoutine(currentWave));
@@ -51,18 +51,12 @@ public class EnemyWaveSpawner : MonoBehaviour
             // 2. Esperamos a que terminen de aparecer Y a que la lista del EnemyManager esté vacía
             yield return new WaitUntil(() => !isSpawning && enemyManager.enemiesInTrigger.Count == 0);
 
-            Debug.Log($"- ROUND {currentWave.waveNumber} COMPLETE -");
+            Debug.Log($"--- RONDA {currentWave.waveNumber} COMPLETADA ---");
 
-            // 3. Registramos la ronda superada en GameStats
-            if (GameStats.Instance != null)
-            {
-                GameStats.Instance.RoundCompleted();
-            }
-
-            // 4. Notificamos que la ronda terminó (Para UI u otros sistemas)
+            // 3. Notificamos que la ronda terminó (Aquí actúa tu UI y el sistema de arcade)
             OnWaveCompleted?.Invoke(currentWave.waveNumber);
 
-            // 5. Tiempo de descanso antes de la siguiente ronda
+            // 4. Tiempo de descanso antes de la siguiente ronda
             yield return new WaitForSeconds(preparationTimeBetweenWaves);
 
             currentWaveIndex++;

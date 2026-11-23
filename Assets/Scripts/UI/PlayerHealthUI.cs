@@ -44,7 +44,7 @@ public class PlayerHealthUI : MonoBehaviour
     {
         if (healthText != null)
         {
-            healthText.text = $"SALUD: {currentHealth} / {maxHealth}";
+            healthText.text = $"{currentHealth} / {maxHealth}";
         }
     }
 
@@ -52,7 +52,7 @@ public class PlayerHealthUI : MonoBehaviour
     {
         if (armorText != null)
         {
-            armorText.text = $"ESCUDO: {currentArmor} / {maxArmor}";
+            armorText.text = $"{currentArmor} / {maxArmor}";
 
             // Opcional: Ocultar o mostrar el texto del escudo si está en 0
             // armorText.gameObject.SetActive(currentArmor > 0);

@@ -5,7 +5,7 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance { get; private set; }
 
-    [Header("Configuración del Combo (Estilo Call of Juarez)")]
+    [Header("Configuración del Combo")]
     [SerializeField] private float comboTimeWindow = 4f; 
     [SerializeField] private int maxMultiplier = 10;     
 
